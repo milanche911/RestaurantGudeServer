@@ -1,0 +1,80 @@
+function Locations(){
+  var MongoClient = require('mongodb').MongoClient;
+  var assert = require('assert');
+  var ObjectId = require('mongodb').ObjectID;
+  var url = 'mongodb://localhost:27017/RestaurantGuide';
+
+  //InsertLocation
+  this.insertLocation = function(location) {
+    MongoClient.connect(url, function(err, db) {//connect to the dataBase
+      assert.equal(null, err);//error print
+      console.log("DataBase open in function: insertLocations");
+      //isert data
+      db.collection('locations').insertOne(location, function(err, result) {
+         assert.equal(err, null);
+         console.log("Inserted a location into the locations collection.");
+         db.close();
+         console.log("DataBase closed in function: insertLocation");
+       //end of data insert
+     });
+   });//end of connect
+  }
+  //GetAllLocation
+  this.getAllLocations = function(callback,limitForResult){
+    if(!limitForResult){
+      limitForResult = 0;
+    }
+    MongoClient.connect(url, function(err, db) {//connect to the dataBase
+      assert.equal(null, err);//error print
+      console.log("DataBase open in function: getAllLocations");
+      //get data
+      var cursor = db.collection("locations").find({},{limit:limitForResult});
+      cursor.toArray(function(err,doc){
+        assert.equal(null,err);//error print
+        if(doc != null){
+          //some work with data
+          callback(doc);
+        }
+        db.close();
+        console.log("DataBase closed in function: getAllLocations");
+      });//end of each , end of get data
+   });//end of connect
+  }
+  //GetLocationsByType
+  var getLocationsByQuerry = function(querry,callback,limitForResult){
+    if(!limitForResult){
+      limitForResult = 0;
+    }
+    MongoClient.connect(url, function(err, db) {//connect to the dataBase
+      assert.equal(null, err);//error print
+      console.log("DataBase open in function: getLocationsByType");
+      //get data
+      var cursor = db.collection("locations").find(querry,{limit:limitForResult});
+      cursor.toArray(function(err,doc){
+        assert.equal(null,err);//error print
+        if(doc != null){
+          //some work with data
+          callback(doc);
+        }
+        db.close();
+        console.log("DataBase closed in function: getLocationsByType");
+      });//end of each , end of get data
+   });//end of connect
+  }
+
+  this.getLocationsByType = function(querry,callback,limitForResult){
+    querryByType =    {type:{ $in: querry } };
+    console.log("Querry in function: getLocationsByType is:");
+    console.log(querryByType);
+    getLocationsByQuerry(querryByType,callback,limitForResult);
+  }
+  this.getLocationsByName = function(querry,callback,limitForResult){
+    querryByName = {name:{ $regex: querry, $options: "i" } };
+    console.log("Querry in function: getLocationsByName is:");
+    console.log(querryByName);
+    getLocationsByQuerry(querryByName,callback,limitForResult);
+  }
+
+
+}//Locations Object
+module.exports = Locations;
