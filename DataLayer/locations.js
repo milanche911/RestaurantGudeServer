@@ -48,7 +48,7 @@ function Locations(){
     }
     MongoClient.connect(url, function(err, db) {//connect to the dataBase
       assert.equal(null, err);//error print
-      console.log("DataBase open in function: getLocationsByType");
+      console.log("DataBase open in function: getLocationsByQuery");
       //get data
       var cursor = db.collection("locations").find(querry,{limit:limitForResult});
       cursor.toArray(function(err,doc){
@@ -58,7 +58,7 @@ function Locations(){
           callback(doc);
         }
         db.close();
-        console.log("DataBase closed in function: getLocationsByType");
+        console.log("DataBase closed in function: getLocationsQuery");
       });//end of each , end of get data
    });//end of connect
   }
@@ -69,10 +69,11 @@ function Locations(){
     console.log(queryByType);
     getLocationsByQuery(queryByType,callback,limitForResult);
   }
-  this.getLocationsByName = function(query,callback,limitForResult){
+  this.getLocationsSearchQuery = function(query,callback,limitForResult){
+
     query = "^" + query;
     queryByName = {name:{ $regex: query, $options: "i" } };
-    console.log("Query in function: getLocationsByName is:");
+    console.log("Query in function: getLocationsSearchQuery is:");
     console.log(queryByName);
     getLocationsByQuery(queryByName,callback,limitForResult);
   }

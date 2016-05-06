@@ -20,13 +20,24 @@ app.use(require('body-parser').urlencoded({extended: true}));
 var Locations = require("./DataLayer/locations");// kako se nazove promenjiva tako se i od nje pravi novi objekat
 var Location = require("./DataLayer/location");
 //npr da sam umesto Locations nazvao foo onda bi izlo var l = new foo(); -glupo za medalju
-var locations = new Locations();
-var location1 = new Location(43.318364, 21.891335,"Restoran1","Restaurant","018/561663","8-21h","nikolan92@hotmail.com");
-var location2 = new Location(43.317365, 21.892333,"Pub1","Pub","018/561663","8-21h","nikolan92@hotmail.com");
 
-//data insert
-// locations.insertLocation(location1);
-// locations.insertLocation(location2);
+// var locations = new Locations();
+// var location1 = new Location(43.318364, 21.891335,"Bolji zivot","Restaurant","018/561663","8-21h","nikolan92@hotmail.com");
+// var location2 = new Location(43.317365, 21.892333,"Irish pub","Pub","018/561663","8-21h","nikolan92@hotmail.com");
+// var location3 = new Location(43.316364, 21.893335,"Grand","Restaurant","018/265652","8-21h","dicic92@hotmail.com");
+// var location4 = new Location(43.315365, 21.894333,"Stara Srbija","Kafana","018/1651546","8-21h","banjac92@hotmail.com");
+// var location5 = new Location(43.314365, 21.895333,"Kod Rajka","Kafana","018/56161565","8-21h","nikolan92@hotmail.com");
+// var location6 = new Location(43.313365, 21.896333,"Lagano","Caffe","018/56161565","8-21h","nikolan92@hotmail.com");
+// var location7 = new Location(43.311365, 21.897333,"BlaBla","Caffe","018/56161565","8-21h","nikolan92@hotmail.com");
+// //data insert
+// locations.insertLocation(location1,function(){console.log("Data inserted");});
+// locations.insertLocation(location2,function(){console.log("Data inserted");});
+// locations.insertLocation(location3,function(){console.log("Data inserted");});
+// locations.insertLocation(location4,function(){console.log("Data inserted");});
+// locations.insertLocation(location5,function(){console.log("Data inserted");});
+// locations.insertLocation(location6,function(){console.log("Data inserted");});
+// locations.insertLocation(location7,function(){console.log("Data inserted");});
+
 
 // locations.getAllLocations(function(doc){
 //   console.log(doc);
@@ -39,10 +50,11 @@ var location2 = new Location(43.317365, 21.892333,"Pub1","Pub","018/561663","8-2
 //   console.log(doc);
 //       console.log("-----------------------------");
 // });
-locations.getLocationsByName('Re',function(doc){
-  console.log(doc);
-      console.log("-----------------------------");
-});
+
+// locations.getLocationsByName('Re',function(doc){
+//   console.log(doc);
+//       console.log("-----------------------------");
+// });
 
 //End of work with mongoDB---------------------------------------------------------------------------------------
 
@@ -66,7 +78,7 @@ app.get('/api/getLocationByName', function(req, res){
     query = req.query["query"];
     console.log("GetLocationByName:");
     console.log(query);
-    locations.getLocationsByName(query,function(loc){
+    locations.getLocationsSearchQuery(query,function(loc){
       res.send(loc);
     },5);//limit for 5 results
   });
@@ -84,8 +96,6 @@ app.post('/api/insertLocation', function(req, res){
     });
 
   });
-
-
 
 //End of routes
 
