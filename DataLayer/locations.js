@@ -8,13 +8,13 @@ function Locations(){
   this.insertLocation = function(location,callback) {
     MongoClient.connect(url, function(err, db) {//connect to the dataBase
       assert.equal(null, err);//error print
-      console.log("DataBase open in function: insertLocations");
+      // console.log("DataBase open in function: insertLocations");
       //isert data
       db.collection('locations').insertOne(location, function(err, result) {
          assert.equal(err, null);
          console.log("Inserted a location into the locations collection.");
          db.close();
-         console.log("DataBase closed in function: insertLocation");
+        //  console.log("DataBase closed in function: insertLocation");
          callback();
        //end of data insert
      });
@@ -27,7 +27,7 @@ function Locations(){
     }
     MongoClient.connect(url, function(err, db) {//connect to the dataBase
       assert.equal(null, err);//error print
-      console.log("DataBase open in function: getAllLocations");
+      // console.log("DataBase open in function: getAllLocations");
       //get data
       var cursor = db.collection("locations").find({},{limit:limitForResult});
       cursor.toArray(function(err,doc){
@@ -37,7 +37,7 @@ function Locations(){
           callback(doc);
         }
         db.close();
-        console.log("DataBase closed in function: getAllLocations");
+        // console.log("DataBase closed in function: getAllLocations");
       });//end of each , end of get data
    });//end of connect
   }
@@ -48,7 +48,7 @@ function Locations(){
     }
     MongoClient.connect(url, function(err, db) {//connect to the dataBase
       assert.equal(null, err);//error print
-      console.log("DataBase open in function: getLocationsByQuery");
+      // console.log("DataBase open in function: getLocationsByQuery");
       //get data
       var cursor = db.collection("locations").find(querry,{limit:limitForResult});
       cursor.toArray(function(err,doc){
@@ -58,7 +58,7 @@ function Locations(){
           callback(doc);
         }
         db.close();
-        console.log("DataBase closed in function: getLocationsQuery");
+        // console.log("DataBase closed in function: getLocationsQuery");
       });//end of each , end of get data
    });//end of connect
   }

@@ -74,16 +74,15 @@ app.get('/api/getAlllocations', function(req, res){
     });
   });
 //Route Search
-app.get('/api/getLocationByName', function(req, res){
+app.get('/api/search', function(req, res){
     var locations = new Locations();
     var query = req.query["query"];
     var type = req.query["type"];
 
-    console.log("--------------\n-------------------");
-    console.log(type);
-    console.log("--------------\n-------------------");
-    // console.log("GetLocationByName:");
-    // console.log(query);
+    console.log("---------------query------------------");
+    console.log(query);
+    console.log("---------------query------------------");
+
     locations.getLocationsSearchQuery(query,type,function(loc){
       res.send(loc);
     },5);//limit for 5 results
@@ -94,13 +93,10 @@ app.post('/api/insertLocation', function(req, res){
 
     //var location = JSON.stringify(req.body);
     location = req.body;
-    delete location._id;
-
-    console.log("Body:" + JSON.stringify(location));
+    console.log("Location from request body:" + JSON.stringify(location));
     locations.insertLocation(location,function(){
       res.send("Data successfuly inserted!");
     });
-
   });
 
 //End of routes

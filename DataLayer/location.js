@@ -1,6 +1,6 @@
-function Location(long,lat,name,type,tel,working_time,email){
-  this.long = long;
+function Location(lat,lng,name,type,tel,working_time,email){
   this.lat = lat;
+  this.lng = lng;
   this.name = name;
   this.type = type;
   this.tel = tel;
