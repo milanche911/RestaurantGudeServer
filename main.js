@@ -73,12 +73,18 @@ app.get('/api/getAlllocations', function(req, res){
       res.send(loc);
     });
   });
+//Route Search
 app.get('/api/getLocationByName', function(req, res){
     var locations = new Locations();
-    query = req.query["query"];
-    console.log("GetLocationByName:");
-    console.log(query);
-    locations.getLocationsSearchQuery(query,function(loc){
+    var query = req.query["query"];
+    var type = req.query["type"];
+
+    console.log("--------------\n-------------------");
+    console.log(type);
+    console.log("--------------\n-------------------");
+    // console.log("GetLocationByName:");
+    // console.log(query);
+    locations.getLocationsSearchQuery(query,type,function(loc){
       res.send(loc);
     },5);//limit for 5 results
   });

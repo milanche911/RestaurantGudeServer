@@ -41,7 +41,7 @@ function Locations(){
       });//end of each , end of get data
    });//end of connect
   }
-  //GetLocationsByType
+  //GetLocationsByQuery
   var getLocationsByQuery = function(querry,callback,limitForResult){
     if(!limitForResult){
       limitForResult = 0;
@@ -62,20 +62,26 @@ function Locations(){
       });//end of each , end of get data
    });//end of connect
   }
-
+  //GetLocationsByType
   this.getLocationsByType = function(query,callback,limitForResult){
     queryByType =    {type:{ $in: query } };
     console.log("Query in function: getLocationsByType is:");
     console.log(queryByType);
     getLocationsByQuery(queryByType,callback,limitForResult);
   }
-  this.getLocationsSearchQuery = function(query,callback,limitForResult){
+  //GetLocationsSearchQuery
+  this.getLocationsSearchQuery = function(query,types,callback,limitForResult){
+    var query = "^" + query; //search startWith
 
-    query = "^" + query;
-    queryByName = {name:{ $regex: query, $options: "i" } };
+    if(types){ // ako je type prosledjen onda se trazi i po njemu
+      var queryFinal = {$and: [{name:{ $regex: query, $options: "i" }},{type:{ $in: types }}]};
+    }else{
+      var queryFinal = {name:{ $regex: query, $options: "i" } };
+    }
     console.log("Query in function: getLocationsSearchQuery is:");
-    console.log(queryByName);
-    getLocationsByQuery(queryByName,callback,limitForResult);
+    console.log(queryFinal);
+    console.log("\n");
+    getLocationsByQuery(queryFinal,callback,limitForResult);
   }
 
 
