@@ -5,7 +5,7 @@ function Locations(){
   var url = 'mongodb://localhost:27017/RestaurantGuide';
 
   //InsertLocation
-  this.insertLocation = function(location) {
+  this.insertLocation = function(location,callback) {
     MongoClient.connect(url, function(err, db) {//connect to the dataBase
       assert.equal(null, err);//error print
       console.log("DataBase open in function: insertLocations");
@@ -15,6 +15,7 @@ function Locations(){
          console.log("Inserted a location into the locations collection.");
          db.close();
          console.log("DataBase closed in function: insertLocation");
+         callback();
        //end of data insert
      });
    });//end of connect
