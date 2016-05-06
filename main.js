@@ -61,12 +61,20 @@ app.get('/api/getAlllocations', function(req, res){
       res.send(loc);
     });
   });
+app.get('/api/getLocationByName', function(req, res){
+    var locations = new Locations();
+    query = req.query["query"];
+    console.log("GetLocationByName:");
+    console.log(query);
+    locations.getLocationsByName(query,function(loc){
+      res.send(loc);
+    },5);//limit for 5 results
+  });
 //Route insertLocation
 app.post('/api/insertLocation', function(req, res){
     var locations = new Locations();
 
     //var location = JSON.stringify(req.body);
-
     location = req.body;
     delete location._id;
 

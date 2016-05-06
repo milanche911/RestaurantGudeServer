@@ -42,7 +42,7 @@ function Locations(){
    });//end of connect
   }
   //GetLocationsByType
-  var getLocationsByQuerry = function(querry,callback,limitForResult){
+  var getLocationsByQuery = function(querry,callback,limitForResult){
     if(!limitForResult){
       limitForResult = 0;
     }
@@ -63,17 +63,18 @@ function Locations(){
    });//end of connect
   }
 
-  this.getLocationsByType = function(querry,callback,limitForResult){
-    querryByType =    {type:{ $in: querry } };
-    console.log("Querry in function: getLocationsByType is:");
-    console.log(querryByType);
-    getLocationsByQuerry(querryByType,callback,limitForResult);
+  this.getLocationsByType = function(query,callback,limitForResult){
+    queryByType =    {type:{ $in: query } };
+    console.log("Query in function: getLocationsByType is:");
+    console.log(queryByType);
+    getLocationsByQuery(queryByType,callback,limitForResult);
   }
-  this.getLocationsByName = function(querry,callback,limitForResult){
-    querryByName = {name:{ $regex: querry, $options: "i" } };
-    console.log("Querry in function: getLocationsByName is:");
-    console.log(querryByName);
-    getLocationsByQuerry(querryByName,callback,limitForResult);
+  this.getLocationsByName = function(query,callback,limitForResult){
+    query = "^" + query;
+    queryByName = {name:{ $regex: query, $options: "i" } };
+    console.log("Query in function: getLocationsByName is:");
+    console.log(queryByName);
+    getLocationsByQuery(queryByName,callback,limitForResult);
   }
 
 
