@@ -1,7 +1,12 @@
 var express = require('express');
 var body_parser = require('body-parser');
-
 var app = express();
+
+//generic administrator
+var username = "admin";
+var password = "secret";
+//
+
 
 app.disable('x-powered-by');// u response header se pojavnjuje ako se ovde ne ukloni
 
@@ -37,7 +42,6 @@ var Location = require("./DataLayer/location");
 // locations.insertLocation(location5,function(){console.log("Data inserted");});
 // locations.insertLocation(location6,function(){console.log("Data inserted");});
 // locations.insertLocation(location7,function(){console.log("Data inserted");});
-
 
 // locations.getAllLocations(function(doc){
 //   console.log(doc);
@@ -97,6 +101,19 @@ app.post('/api/insertLocation', function(req, res){
     locations.insertLocation(location,function(){
       res.send("Data successfuly inserted!");
     });
+  });
+//Route deleteLocation
+app.get('/api/deleteLocation', function(req, res){
+
+    if(req.query["username"]==username && req.query["password"]==password){
+      res.send("SUCCESS");
+    }else{
+      res.send("WRONG USERNAME AND PASSWORD");
+    }
+    var id = req.query["id"];
+    console.log(req.query["username"]);
+    console.log(req.query["password"]);
+    console.log(id);
   });
 
 //End of routes
