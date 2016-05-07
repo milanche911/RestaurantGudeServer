@@ -104,13 +104,17 @@ app.post('/api/insertLocation', function(req, res){
   });
 //Route deleteLocation
 app.get('/api/deleteLocation', function(req, res){
-
+    var id = req.query["id"];
     if(req.query["username"]==username && req.query["password"]==password){
-      res.send("SUCCESS");
+      var locations = new Locations();
+      locations.deleteLocation(id,function(){
+        res.send("SUCCESS");
+      });
+      
     }else{
       res.send("WRONG USERNAME AND PASSWORD");
     }
-    var id = req.query["id"];
+
     console.log(req.query["username"]);
     console.log(req.query["password"]);
     console.log(id);

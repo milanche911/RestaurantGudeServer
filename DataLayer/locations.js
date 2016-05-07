@@ -1,4 +1,5 @@
 function Locations(){
+  var mongodb = require('mongodb');
   var MongoClient = require('mongodb').MongoClient;
   var assert = require('assert');
   var ObjectId = require('mongodb').ObjectID;
@@ -20,6 +21,19 @@ function Locations(){
      });
    });//end of connect
   }
+  //deleteLocation
+  this.deleteLocation = function(id,callback){
+    MongoClient.connect(url, function(err, db) {//connect to the dataBase
+      assert.equal(null, err);//error print
+      db.collection('locations').deleteOne(
+      { _id: new mongodb.ObjectID(id)},
+      function(err, results) {
+         console.log("One location deleted.");
+         callback();
+      }
+   );
+   });//end of connect
+  }
   //GetAllLocation
   this.getAllLocations = function(callback,limitForResult){
     if(!limitForResult){
@@ -34,6 +48,7 @@ function Locations(){
         assert.equal(null,err);//error print
         if(doc != null){
           //some work with data
+          console.log("All locations returned.");
           callback(doc);
         }
         db.close();
