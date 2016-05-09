@@ -15,8 +15,8 @@ function Locations(){
          assert.equal(err, null);
          console.log("Inserted a location into the locations collection.");
          db.close();
-        //  console.log("DataBase closed in function: insertLocation");
-         callback();
+         console.log(location.name);
+         callback(location.name);
        //end of data insert
      });
    });//end of connect

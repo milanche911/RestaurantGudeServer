@@ -2,6 +2,7 @@ var express = require('express');
 var body_parser = require('body-parser');
 var app = express();
 
+var pushNotification = require("./OneSignalPushNotification/PushNotification");
 //generic administrator
 var username = "admin";
 var password = "secret";
@@ -98,8 +99,11 @@ app.post('/api/insertLocation', function(req, res){
     //var location = JSON.stringify(req.body);
     location = req.body;
     console.log("Location from request body:" + JSON.stringify(location));
-    locations.insertLocation(location,function(){
+    locations.insertLocation(location,function(nameOfLocation){
       res.send("Data successfuly inserted!");
+      //Push Notification New Location Added
+      new pushNotification('*', "New Location added check in explore.\nLocation name: " + nameOfLocation);
+      //end of push notifications
     });
   });
 //Route deleteLocation
@@ -110,7 +114,7 @@ app.get('/api/deleteLocation', function(req, res){
       locations.deleteLocation(id,function(){
         res.send("SUCCESS");
       });
-      
+
     }else{
       res.send("WRONG USERNAME AND PASSWORD");
     }
@@ -121,6 +125,7 @@ app.get('/api/deleteLocation', function(req, res){
   });
 
 //End of routes
+
 
 app.listen(app.get('port'),function(){
   console.log('Express started press Ctrl-C to terminate');
