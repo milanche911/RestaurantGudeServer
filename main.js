@@ -8,6 +8,9 @@ var username = "admin";
 var password = "secret";
 //
 
+//Enable public directory
+app.use(express.static(__dirname+'/public'));
+//End of enable public directory
 
 app.disable('x-powered-by');// u response header se pojavnjuje ako se ovde ne ukloni
 
@@ -15,9 +18,9 @@ app.use(function(req,res,next){
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Methods","GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers","Content-Type");
+  res.header('Access-Control-Allow-Credentials', false);
   next();
 });
-
 // Required when using POST to parse encoded data
 app.use(require('body-parser').urlencoded({extended: true}));
 
@@ -65,7 +68,11 @@ var Location = require("./DataLayer/location");
 
 
 //set port
-app.set('port', process.env.PORT || 3000);
+server = app.listen(3000);// server je kao globalna promenjiva sad da bi socket io mogo da im pristupa (Kod je u haos ali ucimo se :) )
+//app.set('port', process.env.PORT || 3000);
+
+// //Sockets
+var socket = require("./Socket.IO/socket");
 
 //Routes
 app.get('/', function(req, res){
@@ -98,7 +105,7 @@ app.post('/api/insertLocation', function(req, res){
 
     //var location = JSON.stringify(req.body);
     location = req.body;
-    console.log("Location from request body:" + JSON.stringify(location));
+    //console.log("Location from request body:" + JSON.stringify(location));
     locations.insertLocation(location,function(nameOfLocation){
       res.send("Data successfuly inserted!");
       //Push Notification New Location Added
@@ -124,6 +131,10 @@ app.get('/api/deleteLocation', function(req, res){
     console.log(id);
   });
 
+  // app.get('/images/temp.jpeg', function(req, res){
+  //     var fs = require("fs");
+  //
+  //   });
 //End of routes
 
 
