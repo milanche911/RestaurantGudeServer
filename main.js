@@ -68,11 +68,11 @@ var Location = require("./DataLayer/location");
 
 
 //set port
-server = app.listen(3000);// server je kao globalna promenjiva sad da bi socket io mogo da im pristupa (Kod je u haos ali ucimo se :) )
-//app.set('port', process.env.PORT || 3000);
+//server = app.listen(3000);// server je kao globalna promenjiva sad da bi socket io mogo da im pristupa (Kod je u haos ali ucimo se :) )
+app.set('port', process.env.PORT || 3000);
 
 // //Sockets
-var socket = require("./Socket.IO/socket");
+//var socket = require("./Socket.IO/socket");
 
 //Routes
 app.get('/', function(req, res){
@@ -138,6 +138,9 @@ app.get('/api/deleteLocation', function(req, res){
 //End of routes
 
 
-app.listen(app.get('port'),function(){
+server = app.listen(app.get('port'),function(){
   console.log('Express started press Ctrl-C to terminate');
 });
+
+// //Sockets
+var socket = require("./Socket.IO/socket");
